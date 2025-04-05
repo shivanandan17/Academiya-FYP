@@ -13,34 +13,34 @@ import { useConfettiStore } from "@/hooks/use-confetti-store";
 import { Button } from "@/components/ui/button";
 
 interface CourseProgressButtonProps {
-    chapterId: string;
-    courseId: string;
-    isCompleted?: boolean;
-    nextChapterId?: string;
+  chapterId: string;
+  courseId: string;
+  isCompleted?: boolean;
+  nextChapterId?: string;
 }
 
 export const CourseProgressButton = ({
-    chapterId,
-    courseId,
-    isCompleted,
-    nextChapterId,
+  chapterId,
+  courseId,
+  isCompleted,
+  nextChapterId,
 }: CourseProgressButtonProps) => {
-    const router = useRouter();
-    const confetti = useConfettiStore();
-    const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const confetti = useConfettiStore();
+  const [isLoading, setIsLoading] = useState(false);
 
-    const onClick = async () => {
-        try {
-            setIsLoading(true);
+  const onClick = async () => {
+    try {
+      setIsLoading(true);
 
-            await axios.put(
-                `/api/courses/${courseId}/chapters/${chapterId}/progress`,
-                {
-                    isCompleted: !isCompleted,
-                }
-            );
+      await axios.put(
+        `/api/courses/${courseId}/chapters/${chapterId}/progress`,
+        {
+          isCompleted: !isCompleted,
+        }
+      );
 
-            /*
+      /*
 				Even if the put request above was successful and the isCompleted 
 				property of the chapter was updated the isCompleted here is still
 				stale that's why we inverse isCompleted here. You're only going to
@@ -48,39 +48,50 @@ export const CourseProgressButton = ({
 				called. We also check if there's no nextChapterId, if so we will
 				display a confetti to indicate that the user has finished the course
 			*/
-            if (!isCompleted && !nextChapterId) {
-                confetti.onOpen();
-            }
+      if (!isCompleted && !nextChapterId) {
+        confetti.onOpen();
+      }
 
-            /*
+      /*
 				Same as to why isCompleted has been inverted. Here, we are going to
 				the next chapter only if there is one
 			*/
-            if (!isCompleted && nextChapterId) {
-                router.push(`/courses/${courseId}/chapters/${nextChapterId}`);
-            }
+      if (!isCompleted && nextChapterId) {
+        router.push(`/courses/${courseId}/chapters/${nextChapterId}`);
+      }
 
-            toast.success("Progress updated");
-            router.refresh();
-        } catch {
-            toast.error("Something went wrong");
-        } finally {
-            setIsLoading(false);
-        }
-    };
+      toast.success("Progress updated");
+      router.refresh();
+    } catch {
+      toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    const Icon = isCompleted ? XCircle : CheckCircle;
+  const Icon = isCompleted ? XCircle : CheckCircle;
 
-    return (
-        <Button
-            onClick={onClick}
-            disabled={isLoading}
-            type="button"
-            variant={isCompleted ? "outline" : "success"}
-            className="w-full md:w-auto"
-        >
-            {isCompleted ? "Not completed" : "Mark as complete"}
-            <Icon className="h-4 w-4 ml-2" />
-        </Button>
-    );
+  return (
+    <>
+      <Button
+        onClick={onClick}
+        disabled={isLoading}
+        type="button"
+        variant={isCompleted ? "outline" : "success"}
+        className="w-full md:w-auto"
+      >
+        {isCompleted ? "Not completed" : "Mark as complete"}
+        <Icon className="h-4 w-4 ml-2" />
+      </Button>
+      <Button
+        onClick={onClick}
+        disabled={!isCompleted}
+        type="button"
+        className="w-full md:w-auto bg-yellow-500"
+      >
+        Challenge
+        <Icon className="h-4 w-4 ml-2" />
+      </Button>
+    </>
+  );
 };
