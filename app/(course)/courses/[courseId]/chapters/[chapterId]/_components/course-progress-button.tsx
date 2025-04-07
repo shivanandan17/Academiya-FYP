@@ -83,15 +83,6 @@ export const CourseProgressButton = ({
         {isCompleted ? "Not completed" : "Mark as complete"}
         <Icon className="h-4 w-4 ml-2" />
       </Button>
-      <Button
-        onClick={onClick}
-        disabled={!isCompleted}
-        type="button"
-        className="w-full md:w-auto bg-yellow-500"
-      >
-        Challenge
-        <Icon className="h-4 w-4 ml-2" />
-      </Button>
     </>
   );
 };

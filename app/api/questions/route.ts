@@ -17,7 +17,7 @@ export const POST = async (req: Request) => {
     const { title } = quizCreationSchema.parse(body);
 
     // Generate 5 prompts related to the quiz title
-    const prompts = new Array(10).fill(
+    const prompts = new Array(5).fill(
       `Generate a hard multiple-choice question about ${title}`
     );
 
