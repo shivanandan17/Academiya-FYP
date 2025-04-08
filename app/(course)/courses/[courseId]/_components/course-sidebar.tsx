@@ -7,6 +7,8 @@ import { Crown } from "lucide-react";
 import { CourseProgress } from "@/components/course-progress";
 import { CourseSidebarItem } from "./course-sidebar-item";
 import { Button } from "@/components/ui/button";
+import { getLeaderboardByCourse } from "@/actions/get-leaderboard";
+import { LeaderboardButton } from "./leaderboard-button";
 
 interface CourseSidebarProps {
   course: Course & {
@@ -41,6 +43,8 @@ export const CourseSidebar = async ({
     },
   });
 
+  function onClick() {}
+
   return (
     <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
       <div className="p-8 flex flex-col border-b">
@@ -54,9 +58,7 @@ export const CourseSidebar = async ({
               <h2 className="font-semibold">Your Ranking: </h2>
               <h2 className="font-semibold">Your Score: </h2>
             </div>
-            <Button className="mt-7 bg-yellow-500 hover:bg-yellow-600">
-              Leaderboard <Crown className="h-4 w-4 ml-2" />
-            </Button>
+            <LeaderboardButton courseId={course.id} />
           </>
         )}
       </div>
