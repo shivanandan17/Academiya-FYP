@@ -2,15 +2,24 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { Chapter, Course, UserProgress } from "@prisma/client";
+import Image from "next/image";
 
 import { CourseProgress } from "@/components/course-progress";
 import { CourseSidebarItem } from "./course-sidebar-item";
 import { LeaderboardButton } from "./leaderboard-button";
 
+type Badge =
+  | "Speedster"
+  | "Quiz Master"
+  | "Consistent"
+  | "Late Bloomer"
+  | "Perfect Run";
+
 interface UserRankData {
   rank: number;
   totalScore: number;
   avgTime: number;
+  badges: string[];
 }
 
 interface CourseSidebarProps {
@@ -23,6 +32,14 @@ interface CourseSidebarProps {
   userProgressSummary: UserRankData | null;
 }
 
+const allBadges: { name: Badge; image: string }[] = [
+  { name: "Consistent", image: "/consistency-badge.png" },
+  { name: "Late Bloomer", image: "/late-bloomer-badge.png" },
+  { name: "Perfect Run", image: "/perfect-run-badge.png" },
+  { name: "Quiz Master", image: "/quiz-master-badge.png" },
+  { name: "Speedster", image: "/speedster-badge.png" },
+];
+
 export const CourseSidebar = async ({
   course,
   progressCount,
@@ -34,11 +51,6 @@ export const CourseSidebar = async ({
     return redirect("/");
   }
 
-  /*
-        In our schema.prisma we created a composite unique constraint
-        @@unique([userId, courseId]), you can use userId_courseId to
-        query the result (compound identifier or composite key)
-    */
   const purchase = await db.purchase.findUnique({
     where: {
       userId_courseId: {
@@ -46,6 +58,14 @@ export const CourseSidebar = async ({
         courseId: course.id,
       },
     },
+  });
+
+  const earnedBadges = userProgressSummary?.badges || [];
+
+  const sortedBadges = allBadges.sort((a, b) => {
+    const aEarned = earnedBadges.includes(a.name);
+    const bEarned = earnedBadges.includes(b.name);
+    return Number(bEarned) - Number(aEarned); // Earned badges first
   });
 
   return (
@@ -59,12 +79,34 @@ export const CourseSidebar = async ({
             </div>
             <div className="mt-7">
               <h2 className="font-semibold">
-                Your Ranking: {userProgressSummary?.rank}
+                Your Ranking: {userProgressSummary?.rank ?? "N/A"}
               </h2>
               <h2 className="font-semibold">
-                Your Score: {userProgressSummary?.totalScore}
+                Your Score: {userProgressSummary?.totalScore ?? 0}
               </h2>
             </div>
+            <div className="flex gap-3 mt-7">
+              {sortedBadges.map((badge) => {
+                const isEarned = earnedBadges.includes(badge.name);
+                return (
+                  <Image
+                    key={badge.name}
+                    src={badge.image}
+                    width={40}
+                    height={40}
+                    alt={badge.name}
+                    title={badge.name} // <-- Tooltip on hover
+                    draggable={false}
+                    className={`object-cover transition ${
+                      isEarned
+                        ? ""
+                        : "brightness-50 grayscale opacity-60 cursor-not-allowed"
+                    }`}
+                  />
+                );
+              })}
+            </div>
+
             <LeaderboardButton courseId={course.id} />
           </>
         )}

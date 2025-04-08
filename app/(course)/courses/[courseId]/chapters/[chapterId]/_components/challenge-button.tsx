@@ -39,6 +39,7 @@ export const ChallengeButton = ({
       console.log(Object.keys(data).length);
       if (Object.keys(data.questions).length === 5) {
         setQuizData(data);
+        console.log(data);
       } else {
         console.log(data);
         setError("Not enough questions received.");

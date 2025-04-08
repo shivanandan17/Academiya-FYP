@@ -7,6 +7,7 @@ import { getProgress } from "@/actions/get-progress";
 import { CourseSidebar } from "./_components/course-sidebar";
 import { CourseNavbar } from "./_components/course-navbar";
 import { getCurrentUserScoreAndRank } from "@/actions/get-current-user-score-and-rank";
+import Image from "next/image";
 
 const CourseLayout = async ({
   children,
