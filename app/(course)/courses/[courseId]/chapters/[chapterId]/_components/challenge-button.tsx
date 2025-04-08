@@ -58,7 +58,7 @@ export const ChallengeButton = ({
         disabled={loading} // Add isQuizCompleted once done with functionality
         type="button"
         className={cn(
-          "w-full md:w-auto bg-yellow-500 hover:bg-yellow-600 border",
+          "w-full md:w-auto bg-blue-500 hover:bg-blue-600 border",
           isQuizCompleted && "bg-white border-rose-700 text-rose-700"
         )}
       >
