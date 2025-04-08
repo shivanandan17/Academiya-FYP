@@ -7,6 +7,12 @@ import { CourseProgress } from "@/components/course-progress";
 import { CourseSidebarItem } from "./course-sidebar-item";
 import { LeaderboardButton } from "./leaderboard-button";
 
+interface UserRankData {
+  rank: number;
+  totalScore: number;
+  avgTime: number;
+}
+
 interface CourseSidebarProps {
   course: Course & {
     chapters: (Chapter & {
@@ -14,11 +20,13 @@ interface CourseSidebarProps {
     })[];
   };
   progressCount: number;
+  userProgressSummary: UserRankData | null;
 }
 
 export const CourseSidebar = async ({
   course,
   progressCount,
+  userProgressSummary,
 }: CourseSidebarProps) => {
   const { userId } = auth();
 
@@ -40,8 +48,6 @@ export const CourseSidebar = async ({
     },
   });
 
-  function onClick() {}
-
   return (
     <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
       <div className="p-8 flex flex-col border-b">
@@ -52,8 +58,12 @@ export const CourseSidebar = async ({
               <CourseProgress variant="success" value={progressCount} />
             </div>
             <div className="mt-7">
-              <h2 className="font-semibold">Your Ranking: </h2>
-              <h2 className="font-semibold">Your Score: </h2>
+              <h2 className="font-semibold">
+                Your Ranking: {userProgressSummary?.rank}
+              </h2>
+              <h2 className="font-semibold">
+                Your Score: {userProgressSummary?.totalScore}
+              </h2>
             </div>
             <LeaderboardButton courseId={course.id} />
           </>
