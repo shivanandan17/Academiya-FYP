@@ -7,12 +7,20 @@ import { useState } from "react";
 import { QuizModal } from "./quiz-modal";
 
 interface ChallengeButtonProps {
+  chapterId: string;
+  courseId: string;
   isCompleted?: boolean;
   title?: string;
+  isQuizCompleted?: boolean;
+  quizScore?: number;
 }
 
 export const ChallengeButton = ({
+  courseId,
+  chapterId,
   isCompleted,
+  isQuizCompleted,
+  quizScore,
   title,
 }: ChallengeButtonProps) => {
   const [quizData, setQuizData] = useState<any>(null);
@@ -57,7 +65,15 @@ export const ChallengeButton = ({
       {error && <p className="text-red-500 mt-2">{error}</p>}
 
       {quizData && (
-        <QuizModal data={quizData} onClose={() => setQuizData(null)} />
+        <QuizModal
+          data={quizData}
+          quizScore={quizScore}
+          isQuizCompleted={isQuizCompleted}
+          isCompleted={isCompleted}
+          courseId={courseId}
+          chapterId={chapterId}
+          onClose={() => setQuizData(null)}
+        />
       )}
     </>
   );

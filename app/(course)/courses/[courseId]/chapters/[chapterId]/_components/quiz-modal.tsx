@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, XCircle } from "lucide-react";
+import axios from "axios";
 
 interface QuizModalProps {
   data: {
@@ -15,10 +16,21 @@ interface QuizModalProps {
       option4: string;
     }>;
   };
+  quizScore?: number;
+  isQuizCompleted?: boolean;
+  chapterId?: string;
+  courseId?: string;
   onClose: () => void;
 }
 
-export const QuizModal = ({ data, onClose }: QuizModalProps) => {
+export const QuizModal = ({
+  data,
+  onClose,
+  quizScore,
+  isQuizCompleted,
+  chapterId,
+  courseId,
+}: QuizModalProps) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [score, setScore] = useState(0);
@@ -60,11 +72,20 @@ export const QuizModal = ({ data, onClose }: QuizModalProps) => {
     }
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     setSelectedOption(null);
     if (currentQuestionIndex < data.questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
+      console.log(
+        await axios.put(
+          `/api/courses/${courseId}/chapters/${chapterId}/progress`,
+          {
+            quizScore: score,
+            isQuizCompleted: true,
+          }
+        )
+      );
       alert(`Quiz completed! Your score: ${score}/${data.questions.length}`);
       onClose();
     }

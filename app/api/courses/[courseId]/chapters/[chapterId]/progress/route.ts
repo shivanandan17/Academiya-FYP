@@ -10,47 +10,49 @@ import { NextResponse } from "next/server";
 	the chapter as not completed
 */
 export async function PUT(
-    req: Request,
-    { params }: { params: { courseId: string; chapterId: string } }
+  req: Request,
+  { params }: { params: { courseId: string; chapterId: string } }
 ) {
-    try {
-        const { userId } = auth();
+  try {
+    const { userId } = auth();
 
-        /*
+    /*
 			isCompleted here can be either true or false. The isCompleted
 			property of a UserProgress can be false because on the 
 			course-progress-button.tsx we also have a "Not completed" button
 			which will make the isCompleted value here to false 
 		*/
-        const { isCompleted } = await req.json();
+    const { isCompleted, isQuizCompleted, quizScore } = await req.json();
 
-        if (!userId) {
-            return new NextResponse("Unauthorized", { status: 401 });
-        }
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
 
-        /*
+    /*
 			The upsert() method means create or update
 		*/
-        const userProgress = await db.userProgress.upsert({
-            where: {
-                userId_chapterId: {
-                    userId,
-                    chapterId: params.chapterId,
-                },
-            },
-            update: {
-                isCompleted,
-            },
-            create: {
-                userId,
-                chapterId: params.chapterId,
-                isCompleted,
-            },
-        });
+    const userProgress = await db.userProgress.upsert({
+      where: {
+        userId_chapterId: {
+          userId,
+          chapterId: params.chapterId,
+        },
+      },
+      update: {
+        isCompleted,
+        isQuizCompleted,
+        quizScore,
+      },
+      create: {
+        userId,
+        chapterId: params.chapterId,
+        isCompleted,
+      },
+    });
 
-        return NextResponse.json(userProgress);
-    } catch (error) {
-        console.log("[CHAPTER_ID_PROGRESS]", error);
-        return new NextResponse("Internal Error", { status: 500 });
-    }
+    return NextResponse.json(userProgress);
+  } catch (error) {
+    console.log("[CHAPTER_ID_PROGRESS]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
 }

@@ -46,8 +46,6 @@ const ChapterIdPage = async ({
   const isLocked = !chapter.isFree && !purchase;
   const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
-  console.log("completeOnEnd", completeOnEnd);
-
   return (
     <div>
       {userProgress?.isCompleted && (
@@ -83,7 +81,11 @@ const ChapterIdPage = async ({
                   isCompleted={!!userProgress?.isCompleted}
                 />
                 <ChallengeButton
+                  chapterId={params.chapterId}
+                  courseId={params.courseId}
                   isCompleted={!!userProgress?.isCompleted}
+                  isQuizCompleted={!!userProgress?.isQuizCompleted}
+                  quizScore={userProgress?.quizScore}
                   title={chapter.title}
                 />
               </>
