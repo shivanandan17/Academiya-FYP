@@ -12,6 +12,7 @@ interface ChallengeButtonProps {
   courseId: string;
   isCompleted?: boolean;
   title?: string;
+  timeTaken?: number;
   isQuizCompleted?: boolean;
   quizScore?: number;
 }
@@ -20,6 +21,7 @@ export const ChallengeButton = ({
   courseId,
   chapterId,
   isCompleted,
+  timeTaken,
   isQuizCompleted,
   quizScore,
   title,
@@ -77,6 +79,7 @@ export const ChallengeButton = ({
           data={quizData}
           quizScore={quizScore}
           isQuizCompleted={isQuizCompleted}
+          timeTaken={timeTaken}
           isCompleted={isCompleted}
           courseId={courseId}
           chapterId={chapterId}

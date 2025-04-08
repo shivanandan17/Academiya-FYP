@@ -85,6 +85,7 @@ const ChapterIdPage = async ({
                   courseId={params.courseId}
                   isCompleted={!!userProgress?.isCompleted}
                   isQuizCompleted={!!userProgress?.isQuizCompleted}
+                  timeTaken={userProgress?.timeTaken}
                   quizScore={userProgress?.quizScore}
                   title={chapter.title}
                 />

@@ -11,7 +11,7 @@ export const LeaderboardButton = ({ courseId }: LeaderboardButtonProps) => {
   const onClick = async () => {
     const res = await fetch(`/api/leaderboard?courseId=${courseId}`);
     const data = await res.json();
-    console.log(data); // or open a modal here
+    console.log(data);
   };
 
   return (

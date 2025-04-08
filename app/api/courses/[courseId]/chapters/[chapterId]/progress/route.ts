@@ -22,7 +22,8 @@ export async function PUT(
 			course-progress-button.tsx we also have a "Not completed" button
 			which will make the isCompleted value here to false 
 		*/
-    const { isCompleted, isQuizCompleted, quizScore } = await req.json();
+    const { isCompleted, isQuizCompleted, quizScore, timeTaken } =
+      await req.json();
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -42,11 +43,13 @@ export async function PUT(
         isCompleted,
         isQuizCompleted,
         quizScore,
+        timeTaken,
       },
       create: {
         userId,
         chapterId: params.chapterId,
         isCompleted,
+        timeTaken,
       },
     });
 

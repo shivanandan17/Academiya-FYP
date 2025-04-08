@@ -98,6 +98,7 @@ model UserProgress {
   isCompleted Boolean @default(false)
   isQuizCompleted   Boolean @default(false)
   quizScore   Int     @default(0)
+  timeTaken Int @default(0)
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

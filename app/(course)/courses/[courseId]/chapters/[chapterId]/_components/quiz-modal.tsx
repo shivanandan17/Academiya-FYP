@@ -19,6 +19,7 @@ interface QuizModalProps {
   isCompleted?: boolean;
   quizScore?: number;
   isQuizCompleted?: boolean;
+  timeTaken?: number;
   chapterId?: string;
   courseId?: string;
   onClose: () => void;
@@ -27,8 +28,6 @@ interface QuizModalProps {
 export const QuizModal = ({
   data,
   onClose,
-  quizScore,
-  isQuizCompleted,
   isCompleted,
   chapterId,
   courseId,
@@ -74,16 +73,28 @@ export const QuizModal = ({
     }
   };
 
+  const [startTime, setStartTime] = useState<number | null>(null);
+
+  useEffect(() => {
+    setStartTime(Date.now()); // Set when quiz starts
+  }, []);
+
   const handleNext = async () => {
     setSelectedOption(null);
+
     if (currentQuestionIndex < data.questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
+      const timeTaken = startTime
+        ? Math.floor((Date.now() - startTime) / 1000)
+        : 0;
+
       await axios.put(
         `/api/courses/${courseId}/chapters/${chapterId}/progress`,
         {
           isCompleted: isCompleted,
           quizScore: score,
+          timeTaken,
           isQuizCompleted: true,
         }
       );
