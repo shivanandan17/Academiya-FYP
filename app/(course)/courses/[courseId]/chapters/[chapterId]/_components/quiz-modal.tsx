@@ -16,6 +16,7 @@ interface QuizModalProps {
       option4: string;
     }>;
   };
+  isCompleted?: boolean;
   quizScore?: number;
   isQuizCompleted?: boolean;
   chapterId?: string;
@@ -28,6 +29,7 @@ export const QuizModal = ({
   onClose,
   quizScore,
   isQuizCompleted,
+  isCompleted,
   chapterId,
   courseId,
 }: QuizModalProps) => {
@@ -77,15 +79,15 @@ export const QuizModal = ({
     if (currentQuestionIndex < data.questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
-      console.log(
-        await axios.put(
-          `/api/courses/${courseId}/chapters/${chapterId}/progress`,
-          {
-            quizScore: score,
-            isQuizCompleted: true,
-          }
-        )
+      await axios.put(
+        `/api/courses/${courseId}/chapters/${chapterId}/progress`,
+        {
+          isCompleted: isCompleted,
+          quizScore: score,
+          isQuizCompleted: true,
+        }
       );
+
       alert(`Quiz completed! Your score: ${score}/${data.questions.length}`);
       onClose();
     }

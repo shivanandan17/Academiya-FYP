@@ -1,10 +1,11 @@
 "use client";
 
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useState } from "react";
 import { QuizModal } from "./quiz-modal";
+import { cn } from "@/lib/utils";
 
 interface ChallengeButtonProps {
   chapterId: string;
@@ -48,17 +49,24 @@ export const ChallengeButton = ({
     }
   };
 
-  const Icon = isCompleted ? XCircle : CheckCircle;
+  const Icon = loading ? Loader : CheckCircle;
 
   return (
     <>
       <Button
         onClick={onClick}
-        disabled={!isCompleted || loading}
+        disabled={loading} // Add isQuizCompleted once done with functionality
         type="button"
-        className="w-full md:w-auto bg-yellow-500"
+        className={cn(
+          "w-full md:w-auto bg-yellow-500 hover:bg-yellow-600 border",
+          isQuizCompleted && "bg-white border-rose-700 text-rose-700"
+        )}
       >
-        {loading ? "Loading..." : "Challenge"}
+        {isQuizCompleted
+          ? "Quiz Already Taken"
+          : loading
+          ? "Loading..."
+          : "Take the Challenge"}
         <Icon className="h-4 w-4 ml-2" />
       </Button>
 
