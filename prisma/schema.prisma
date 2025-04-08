@@ -89,16 +89,18 @@ model MuxData {
 }
 
 model UserProgress {
-  id     String @id @default(uuid())
-  userId String
+  id         String   @id @default(uuid())
+  userId     String
 
-  chapterId String
-  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  chapterId  String
+  chapter    Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
   isCompleted Boolean @default(false)
+  isQuizCompleted   Boolean @default(false)
+  quizScore   Int     @default(0)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   // There needs to be a unique combination of userId and chapterId
   @@unique([userId, chapterId])
