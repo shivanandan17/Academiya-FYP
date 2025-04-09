@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle } from "lucide-react";
 import axios from "axios";
+import { CheckCircle, XCircle } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface QuizModalProps {
   data: {
@@ -128,26 +128,31 @@ export const QuizModal = ({
             <li key={index}>
               <Button
                 onClick={() => handleOptionClick(option)}
-                className={`w-full py-2 px-4 text-left rounded-md flex items-center justify-between transition-all duration-300 ${
+                className={`w-full h-full py-2 px-4 text-left rounded-md flex items-center justify-between transition-all duration-300 hover:bg-stone-300 ${
                   selectedOption
                     ? option === currentQuestion.answer
-                      ? "bg-green-900 text-white" // Correct answer (darker green)
+                      ? "bg-green-600 text-white p-red-900 disabled:opacity-90" // Correct answer (darker green)
                       : option === selectedOption
-                      ? "bg-red-900 text-white" // Incorrect selection (darker red)
-                      : "bg-gray-900 text-white" // Disabled (darker gray)
-                    : "bg-gray-900 text-white" // Default for unselected options (darker gray)
+                      ? "bg-rose-600 text-white disabled:opacity-90" // Incorrect selection (darker red)
+                      : "bg-white text-black border border-stone-800" // Disabled (darker gray)
+                    : "bg-white text-black border border-stone-800" // Default for unselected options (darker gray)
                 }`}
                 disabled={!!selectedOption}
               >
-                <span>{option}</span>
+                <span className="h-full">
+                  <span className="mr-3 h-full">{['A','B','C','D'][index]+"."}</span>
+                  <span>{option}</span>
+                </span>
                 {selectedOption && (
+                  <>
                   <span className="ml-2">
                     {option === currentQuestion.answer ? (
-                      <CheckCircle className="text-green-500" />
+                      <CheckCircle className="text-white" />
                     ) : option === selectedOption ? (
-                      <XCircle className="text-red-500" />
+                      <XCircle className="text-white" />
                     ) : null}
                   </span>
+                  </>
                 )}
               </Button>
             </li>
@@ -155,12 +160,12 @@ export const QuizModal = ({
         </ul>
 
         <div className="mt-4 flex justify-between">
-          <Button onClick={handleNext} className="bg-blue-900 text-white">
+          <Button onClick={handleNext} className="bg-blue-600 hover:bg-blue-700 text-white">
             {currentQuestionIndex < data.questions.length - 1
               ? "Next"
               : "Finish"}
           </Button>
-          <Button onClick={onClose} className="bg-red-900 text-white">
+          <Button onClick={onClose} className="bg-red-600 hover:bg-red-700 text-white">
             Close
           </Button>
         </div>
