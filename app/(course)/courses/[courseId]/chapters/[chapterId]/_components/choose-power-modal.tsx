@@ -23,45 +23,45 @@ const powers = [
     id: "fifty-fifty",
     name: "50-50",
     description: "Disable two wrong option buttons and only one wrong and one correct answer is displayed.",
-    image: "/placeholder.svg?height=100&width=100",
+    image: "/fifty-fifty.png?height=200&width=200",
   },
   {
     id: "time-freeze",
     name: "Time Freeze",
     description: "Freeze total elapsed time and the 60 second timer for that respective question.",
-    image: "/placeholder.svg?height=100&width=100",
+    image: "/time-freeze.png?height=100&width=100",
   },
   {
     id: "two-chance",
     name: "Two-Chance",
     description:
       "If the two-chance power is selected the user will get a second chance to choose an option if the answer goes wrong.",
-    image: "/placeholder.svg?height=100&width=100",
+    image: "/two-chance.png?height=100&width=100",
   },
   {
     id: "hint-reveal",
     name: "Hint-Reveal",
     description: "Displays hint for that respective question.",
-    image: "/placeholder.svg?height=100&width=100",
+    image: "/hint-reveal.png?height=100&width=100",
   },
   {
     id: "skip-negative",
     name: "Skip Negative Score",
     description: "No point will be deducted if the answer goes wrong.",
-    image: "/placeholder.svg?height=100&width=100",
+    image: "/skip-negative.png?height=100&width=100",
   },
   {
     id: "skip-question",
     name: "Skip Question",
     description: "No points will be deducted on skipping the question.",
-    image: "/placeholder.svg?height=100&width=100",
+    image: "/skip-question.png?height=100&width=100",
   },
   {
     id: "double-points",
     name: "Double Points",
     description:
       "Double the point will be provided if the answer chosen is right. -15 points will be deducted on wrong answer.",
-    image: "/placeholder.svg?height=100&width=100",
+    image: "/double-points.png?height=100&width=100",
   },
 ]
 
