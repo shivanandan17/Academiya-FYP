@@ -69,9 +69,9 @@ const BADGE_TYPES = [
   "All Badges",
   "Speedster",
   "Consistent",
-  "Perfectionist",
-  "Problem Solver",
-  "Quick Learner",
+  "Late Bloomer",
+  "Perfect Run",
+  "Quiz Master",
 ];
 
 // Function to fetch user details from the API
@@ -255,11 +255,11 @@ export const LeaderboardModal = ({
         return <Zap className="h-4 w-4 text-yellow-500" />;
       case "Consistent":
         return <CheckCircle2 className="h-4 w-4 text-green-500" />;
-      case "Perfectionist":
+      case "Late Bloomer":
         return <Trophy className="h-4 w-4 text-purple-500" />;
       case "Problem Solver":
         return <Award className="h-4 w-4 text-blue-500" />;
-      case "Quick Learner":
+      case "Quiz Master":
         return <Flame className="h-4 w-4 text-orange-500" />;
       default:
         return <Award className="h-4 w-4 text-blue-500" />;
@@ -273,11 +273,11 @@ export const LeaderboardModal = ({
         return "Completes challenges faster than 80% of users";
       case "Consistent":
         return "Maintains a steady performance across challenges";
-      case "Perfectionist":
+      case "Late Bloomer":
         return "Achieves perfect scores consistently";
       case "Problem Solver":
         return "Excels at solving complex problems";
-      case "Quick Learner":
+      case "Quiz Master":
         return "Rapidly improves performance over time";
       default:
         return "Special achievement";

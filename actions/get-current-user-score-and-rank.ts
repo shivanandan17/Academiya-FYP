@@ -104,7 +104,7 @@ export const getCurrentUserScoreAndRank = async (
   const badges: string[] = [];
 
   const avgTime = userStats.timeSum / userStats.attempts;
-  const allAbove90 = userStats.scores.every((score) => (score / 5) * 100 >= 90);
+  const allAbove175 = userStats.scores.every((score) => score > 175);
   const completedAll = userStats.chapterSet.size === chapterIds.length;
   const improved =
     userStats.timeline.length >= 2 &&
@@ -113,7 +113,7 @@ export const getCurrentUserScoreAndRank = async (
       .at(-1)!.score > userStats.timeline[0].score;
 
   if (avgTime < 60) badges.push("Speedster");
-  if (allAbove90) badges.push("Quiz Master");
+  if (allAbove175) badges.push("Quiz Master");
   if (completedAll) badges.push("Consistent");
   if (improved) badges.push("Late Bloomer");
   if (userStats.perfectRuns > 0) badges.push("Perfect Run");
