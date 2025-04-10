@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { useState } from "react"
 
 interface Power {
   id: string
@@ -23,7 +23,7 @@ export default function PowerCard({ power, isSelected, isDisabled, onToggle }: P
 
   return (
     <div
-      className={cn("relative h-40 perspective-1000 cursor-pointer", isDisabled && "opacity-50 cursor-not-allowed")}
+      className={cn("relative h-[250px] perspective-1000 cursor-pointer", isDisabled && "opacity-50 cursor-not-allowed")}
       onMouseEnter={() => setIsFlipped(true)}
       onMouseLeave={() => setIsFlipped(false)}
     >
