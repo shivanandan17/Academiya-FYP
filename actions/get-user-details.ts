@@ -1,40 +1,41 @@
-import { clerkClient } from "@clerk/nextjs/server"
-import { NextRequest, NextResponse } from "next/server"
- 
-export async function GET(req: NextRequest) {
+import { NextResponse } from "next/server";
+import { clerkClient } from "@clerk/nextjs/server";
+
+// Route handler for GET request
+export async function GET(req: Request) {
   try {
-    const { searchParams } = new URL(req.url)
-    const userId = searchParams.get("userId")
- 
-    console.log("Received userId:", userId)
- 
+    const { searchParams } = new URL(req.url);
+    const userId = searchParams.get("userId");
+
+    console.log("Query Param - userId:", userId);
+
     if (!userId) {
-      return NextResponse.json({ error: "UserId is required" }, { status: 400 })
+      return NextResponse.json(
+        { error: "Missing userId query parameter" },
+        { status: 400 }
+      );
     }
- 
-    const user = await clerkClient.users.getUser(userId)
- 
-    if (!user) {
-      console.log("User not found for ID:", userId)
-      return NextResponse.json({ error: "User not found" }, { status: 404 })
-    }
- 
-    const username =
-      user.username ||
-      user.firstName ||
-      user.emailAddresses?.[0]?.emailAddress ||
-      "Unknown User"
- 
-    const profileImage = user.imageUrl || null
- 
-    console.log("Fetched user details:", {
-      username,
-      profileImage,
-    })
- 
-    return NextResponse.json({ username, profileImage }, { status: 200 })
+
+    // Fetch user from Clerk
+    const user = await clerkClient.users.getUser(userId);
+    console.log("Fetched User:", user);
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        id: user.id,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        imageUrl: user.imageUrl,
+        email: user.emailAddresses[0]?.emailAddress,
+      },
+    });
   } catch (error) {
-    console.error("Error fetching user:", error)
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 })
+    console.error("Error fetching user:", error);
+    return NextResponse.json(
+      { success: false, error: "Failed to fetch user" },
+      { status: 500 }
+    );
   }
 }
