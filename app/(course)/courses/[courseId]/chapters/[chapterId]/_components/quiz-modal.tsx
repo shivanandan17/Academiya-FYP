@@ -157,7 +157,7 @@ export default function QuizModal({
     // Calculate score based on power usage
     if (activePower === "double-points") {
       if (correct) {
-        setScore((prev) => prev + 50 * 2);
+        setScore((prev) => prev + 40 * 2);
       } else {
         setScore((prev) => prev - 15);
       }
@@ -227,6 +227,8 @@ export default function QuizModal({
         // Quiz is completed
         setQuizCompleted(true);
         setScore(finalScore); // Update the score state for display
+
+        console.log(score);
 
         // Update the database with the calculated final score
         try {
