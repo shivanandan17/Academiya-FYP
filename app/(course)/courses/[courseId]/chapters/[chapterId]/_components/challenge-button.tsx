@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import axios from "axios"
 import { CheckCircle, Loader } from "lucide-react"
 import { useState } from "react"
+import toast from "react-hot-toast"
 import ChoosePowerModal from "./choose-power-modal"
 import InstructionModal from "./instruction-modal"
 import QuizModal from "./quiz-modal"
@@ -30,13 +31,11 @@ export const ChallengeButton = ({
 }: ChallengeButtonProps) => {
   const [quizData, setQuizData] = useState<any>(null)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
 
   const onClick = async () => {
     // if (isQuizCompleted) return
 
     setLoading(true)
-    setError(null)
 
     try {
       const { data } = await axios.post("/api/questions", { title })
@@ -45,11 +44,11 @@ export const ChallengeButton = ({
         setQuizData(data)
         console.log(data)
       } else {
-        setError("Not enough questions received.")
+        toast.error("Not enough questions received.")
       }
     } catch (error) {
       console.error(error)
-      setError("An error occurred while fetching questions.")
+      toast.error("An error occurred while fetching questions.")
     } finally {
       setLoading(false)
     }
@@ -98,17 +97,15 @@ export const ChallengeButton = ({
         {Icon && <Icon className={cn("h-4 w-4 ml-2", loading && "animate-spin")} />}
       </Button>
 
-      {error && <p className="text-red-500 mt-2 text-sm">{error}</p>}
-
-      {showInstructionModal && (
+      {quizData && showInstructionModal && (
         <InstructionModal onClose={() => {setShowInstructionModal(false)}} onStartQuiz={handleStartQuiz} />
       )}
 
-      {showChoosePowerModal && (
+      {quizData && showChoosePowerModal && (
         <ChoosePowerModal onClose={() => setShowChoosePowerModal(false)} onPowerSelection={handlePowerSelection} />
       )}
 
-      {showQuizModal && <QuizModal
+      {quizData && showQuizModal && <QuizModal
         data={quizData}
         isCompleted={isCompleted}
         courseId={courseId}

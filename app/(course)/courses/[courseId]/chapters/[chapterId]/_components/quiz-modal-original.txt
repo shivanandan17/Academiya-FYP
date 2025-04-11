@@ -6,7 +6,7 @@ import { CheckCircle, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface QuizModalProps {
-  data: {
+  data?: {
     questions: Array<{
       question: string;
       answer: string;

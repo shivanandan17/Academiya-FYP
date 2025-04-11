@@ -13,10 +13,10 @@ import { AlertCircle, CheckCircle, Clock, XCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface QuizModalProps {
-  data: any;
-  isCompleted: boolean;
-  courseId: string;
-  chapterId: string;
+  data?: any;
+  isCompleted?: boolean;
+  courseId?: string;
+  chapterId?: string;
   selectedPowers: string[];
   onClose: () => void;
 }
@@ -281,7 +281,7 @@ export default function QuizModal({
     if (powerId === "fifty-fifty") {
       // Keep correct answer and one random wrong answer
       const wrongOptions = currentQuestion.options.filter(
-        (opt) => opt !== currentQuestion.correctAnswer
+        (opt: string) => opt !== currentQuestion.correctAnswer
       );
       const randomWrongOption =
         wrongOptions[Math.floor(Math.random() * wrongOptions.length)];
@@ -303,7 +303,7 @@ export default function QuizModal({
   // Fix: Ensure options are always defined
   const displayOptions =
     filteredOptions.length > 0
-      ? (currentQuestion.options || []).filter((opt) =>
+      ? (currentQuestion.options || []).filter((opt: string) =>
           filteredOptions.includes(opt)
         )
       : currentQuestion.options || [];
@@ -431,7 +431,7 @@ export default function QuizModal({
                 )}
 
                 <div className="grid grid-cols-1 gap-4 flex-grow">
-                  {displayOptions.map((option) => (
+                  {displayOptions.map((option: string) => (
                     <Button
                       key={option}
                       variant={
