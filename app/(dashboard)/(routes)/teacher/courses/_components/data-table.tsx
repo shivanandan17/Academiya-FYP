@@ -1,7 +1,7 @@
 "use client";
 
-import * as React from "react";
 import Link from "next/link";
+import * as React from "react";
 
 import { PlusCircle } from "lucide-react";
 
@@ -17,6 +17,8 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
     Table,
     TableBody,
@@ -25,8 +27,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -55,6 +55,8 @@ export function DataTable<TData, TValue>({
             columnFilters,
         },
     });
+
+    console.log(columns)
 
     return (
         <div>

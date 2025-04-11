@@ -1,21 +1,22 @@
 "use client";
 
-import Link from "next/link";
 import { Course } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
 
 import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+
 
 export const columns: ColumnDef<Course>[] = [
     {
@@ -32,31 +33,6 @@ export const columns: ColumnDef<Course>[] = [
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
-        },
-    },
-    {
-        accessorKey: "price",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Price
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            );
-        },
-        cell: ({ row }) => {
-            const price = parseFloat(row.getValue("price") || "0");
-            const formatted = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-            }).format(price);
-
-            return <div>{formatted}</div>;
         },
     },
     {
