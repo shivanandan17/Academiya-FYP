@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import ChoosePowerModal from "./choose-power-modal";
 import InstructionModal from "./instruction-modal";
 import QuizModal from "./quiz-modal";
+import { useRouter } from "next/navigation";
 
 interface ChallengeButtonProps {
   chapterId: string;
@@ -70,9 +71,12 @@ export const ChallengeButton = ({
     setShowQuizModal(true);
   };
 
+  const router = useRouter();
+
   const handleCloseQuiz = () => {
     setShowQuizModal(false);
     setSelectedPowers([]);
+    router.refresh();
   };
 
   const Icon = loading ? Loader : isQuizCompleted ? CheckCircle : null;
