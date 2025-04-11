@@ -3,23 +3,21 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 import {
-    CircleDollarSign,
     File,
     LayoutDashboard,
-    ListChecks,
+    ListChecks
 } from "lucide-react";
 
-import { IconBadge } from "@/components/icon-badge";
 import { Banner } from "@/components/banner";
+import { IconBadge } from "@/components/icon-badge";
 
-import { TitleForm } from "./_components/title-form";
-import { DescriptionForm } from "./_components/description-form";
-import { ImageForm } from "./_components/image-form";
+import { Actions } from "./_components/actions";
+import { AttachmentForm } from "./_components/attachment-form";
 import { CategoryForm } from "./_components/category-form";
 import { ChaptersForm } from "./_components/chapters-form";
-import { PriceForm } from "./_components/price-form";
-import { AttachmentForm } from "./_components/attachment-form";
-import { Actions } from "./_components/actions";
+import { DescriptionForm } from "./_components/description-form";
+import { ImageForm } from "./_components/image-form";
+import { TitleForm } from "./_components/title-form";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
     const { userId } = auth();
@@ -74,7 +72,6 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
         course.title,
         course.description,
         course.imageUrl,
-        course.price,
         course.categoryId,
         course.chapters.some((chapter) => chapter.isPublished),
     ];
@@ -133,16 +130,6 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
                                 <h2 className="text-xl">Course chapters</h2>
                             </div>
                             <ChaptersForm
-                                initialData={course}
-                                courseId={course.id}
-                            />
-                        </div>
-                        <div>
-                            <div className="flex items-center gap-x-2">
-                                <IconBadge icon={CircleDollarSign} />
-                                <h2 className="text-xl">Sell your course</h2>
-                            </div>
-                            <PriceForm
                                 initialData={course}
                                 courseId={course.id}
                             />
