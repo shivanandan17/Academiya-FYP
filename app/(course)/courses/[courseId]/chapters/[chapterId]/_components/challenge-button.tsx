@@ -84,12 +84,12 @@ export const ChallengeButton = ({
           await onClick()
           setShowInstructionModal(true)
         }}
-        disabled={loading}
+        disabled={isQuizCompleted || loading}
         type="button"
         className={cn(
           "w-full md:w-auto",
           isQuizCompleted
-            ? "bg-white border-rose-700 text-rose-700 hover:bg-rose-50"
+            ? "bg-white border-rose-700 text-rose-700 border hover:bg-rose-50"
             : "bg-blue-500 hover:bg-blue-600 border",
         )}
       >
